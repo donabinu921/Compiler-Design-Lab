@@ -1,7 +1,7 @@
 #include <stdio.h> 
 #include <string.h> 
 int z = 0, i = 0, j = 0, c = 0; 
-char input[16], reduce[20], stack[15], shift[10];  
+char input[16], stack[15];  
 void check(); 
 int main() 
 { 
@@ -10,11 +10,10 @@ int main()
     puts("enter input string "); 
     scanf("%s", input); 
     c = strlen(input); 
-    strcpy(shift, "SHIFT"); 
     puts("stack \t input \t action"); 
     for ( i = 0; j < c; i++, j++) 
       { 
-         printf("\n$%s\t%s$\t%s", stack, input, shift); 
+         printf("\n$%s\t%s$\tSHIFT", stack, input); 
             stack[i] = input[j]; 
             stack[i + 1] = '\0'; 
             input[j] = ' '; 
@@ -29,16 +28,15 @@ printf("String Rejected\n");
          
 void check() 
 { 
-    strcpy(reduce, "REDUCE by E"); 
     for (z = 0; z < c; z++) 
         if (stack[z] >= 'a' && stack[z] <= 'z') 
-        {printf("\n$%s\t%s$\t%s->id", stack, input, reduce); 
+        {printf("\n$%s\t%s$\tREDUCE BY E->id", stack, input); 
             stack[z] = 'E'; 
             stack[z + 1] = '\0'; 
  } 
     for (z = 0; z < c; z++) 
         if (stack[z] == 'E' && stack[z + 1] == '+' && stack[z + 2] == 'E') 
-        {printf("\n$%s\t%s$\t%s->E+E", stack, input, reduce); 
+        {printf("\n$%s\t%s$\tREDUCE BY E->E+E", stack, input); 
             stack[z] = 'E'; 
             stack[z + 1] = '\0'; 
             stack[z + 2] = '\0'; 
@@ -46,7 +44,7 @@ void check()
         } 
  for (z = 0; z < c; z++) 
         if (stack[z] == 'E' && stack[z + 1] == '*' && stack[z + 2] == 'E') 
-        {printf("\n$%s\t%s$\t%s->E*E", stack, input, reduce); 
+        {printf("\n$%s\t%s$\tREDUCE BY E->E*E", stack, input); 
             stack[z] = 'E'; 
             stack[z + 1] = '\0'; 
             stack[z + 2] = '\0'; 
@@ -54,7 +52,7 @@ void check()
         } 
     for (z = 0; z < c; z++) 
         if (stack[z] == '(' && stack[z + 1] == 'E' && stack[z + 2] == ')') 
-        {printf("\n$%s\t%s$\t%s->(E)", stack, input, reduce); 
+        {printf("\n$%s\t%s$\tREDUCE BY E->(E)", stack, input); 
             stack[z] = 'E'; 
             stack[z + 1] = '\0'; 
             stack[z + 2] = '\0'; 
